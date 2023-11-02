@@ -1,5 +1,5 @@
-def add_money(money):
-    money += int(input('Пополните счет '))
+def add_money(money, en_ment):
+    money += int(en_ment)
     return money
 
 
@@ -13,10 +13,12 @@ def shop(wallet, pokupki):
         print('На счете недостаточно средств')
     return wallet, pokupki
 
+
 def show_hist(goods):
     print('Куплены следующие товары:')
     for key, val in goods.items():
         print(f'{key} по цене {val} рублей')
+
 
 def bill():
     amount = 0
@@ -30,7 +32,8 @@ def bill():
 
         choice = input('Выберите пункт меню ')
         if choice == '1':
-            amount = add_money(amount)
+            enrollment = input('Пополните счет ')
+            amount = add_money(amount, enrollment)
         elif choice == '2':
             amount, hist = shop(amount, hist)
         elif choice == '3':

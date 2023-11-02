@@ -4,12 +4,11 @@ import random
 def victory_game():
     # исходные данные
     numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-    count_r = 0     # количество правильных ответов
-    per_count_r = 0 # процент правильных ответов
-    count_f = 0     # количество неправильных ответов
-    per_count_f = 0 # процент неправильных ответов
-    count = 0       # количество вопросов
+    count_r = 0  # количество правильных ответов
+    per_count_r = 0  # процент правильных ответов
+    count_f = 0  # количество неправильных ответов
+    per_count_f = 0  # процент неправильных ответов
+    count = 0  # количество вопросов
 
     # Имена знаменитых людей
     famous_people_name = {
@@ -40,24 +39,39 @@ def victory_game():
 
     # Запуск цикла программы
     while True:
-        result = random.sample(numbers, 3)
+
+        def f_random_names(digits):
+            return random.sample(digits, 3)
+
+        def f_questions(fpn, fpd, fpds, res):
+            nonlocal count, count_r, count_f
+            for num in res:
+                question = input(f'Знаете ли Вы год рождения {fpn[num]}? Введите в формате ХХ.ХХ.XXXX: ')
+                if question == fpd[num]:
+                    count_r += 1
+                    print(f'Ответ правильный')
+                else:
+                    count_f += 1
+                    print(f'Ответ неверный! Правильный ответ - {fpds[num]}')
+                count += 1
+            return count, count_r, count_f
+
+        def f_calc_answer(c, cr, cf):
+            # Подсчет правильных, неправильных ответов
+            nonlocal per_count_r, per_count_f
+            per_count_r = int(cr / c * 100)
+            per_count_f = int(cf / c * 100)
+            print('Количество правильных ответов: ', count_r)
+            print('Количество ошибок: ', count_f)
+            print('Процент правильных ответов: ', per_count_r, ' %')
+            print('Процент неправильных ответов: ', per_count_f, ' %')
+            return per_count_r, per_count_f
+
+        result = f_random_names(numbers)
         # print(result)
-        for num in result:
-            question = input(f'Знаете ли Вы год рождения {famous_people_name[num]}? Введите в формате ХХ.ХХ.XXXX: ')
-            if question == famous_people_date[num]:
-                count_r += 1
-                print(f'Ответ правильный')
-            else:
-                count_f += 1
-                print(f'Ответ неверный! Правильный ответ - {famous_people_date_str[num]}')
-            count += 1
-    # Подсчет правильных, неправильных ответов
-        per_count_r = int(count_r / count * 100)
-        per_count_f = int(count_f / count * 100)
-        print('Количество правильных ответов: ', count_r)
-        print('Количество ошибок: ', count_f)
-        print('Процент правильных ответов: ', per_count_r, ' %')
-        print('Процент неправильных ответов: ', per_count_f, ' %')
+        f_questions(famous_people_name, famous_people_date, famous_people_date_str, result)
+        f_calc_answer(count, count_r, count_f)
+
         rep = input('Хотите ли начать игру сначала (y/n): ')
         if rep == 'y' or rep == 'н':
             count_r = 0
