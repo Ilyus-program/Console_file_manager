@@ -1,0 +1,2 @@
+files: bank_account.py, LICENSE, main.py, new_word.txt, os_func.py, README.md, shutil_func.py, sys_func.py, test_filemanager.py, test_python.py, text_new.txt, victory.py, 
+dirs: .git, .idea, .pytest_cache, files, __pycache__, 

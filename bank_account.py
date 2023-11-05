@@ -1,3 +1,12 @@
+import json
+import os
+
+
+FOLDER = 'files'
+FILE_WALLET = f'{FOLDER}/bank_account.json'
+FILE_HIST = f'{FOLDER}/orders_hist.json'
+
+
 def add_money(money, en_ment):
     money += int(en_ment)
     return money
@@ -20,9 +29,31 @@ def show_hist(goods):
         print(f'{key} по цене {val} рублей')
 
 
+def file_read(file):
+    with open(file, 'r') as f:
+        am = json.load(f)
+    return am
+
+
+def file_write(file, am):
+    with open(file, 'w') as f:
+        json.dump(am, f)
+
+
 def bill():
-    amount = 0
-    hist = {}
+    # amount = 0
+    if not os.path.exists(FOLDER):
+        # сздать папку передаем путь
+        os.mkdir(FOLDER)
+    if os.path.exists(FILE_WALLET):
+        amount = file_read(FILE_WALLET)
+    else:
+        amount = 0
+
+    if os.path.exists(FILE_HIST):
+        hist = file_read(FILE_HIST)
+    else:
+        hist = {}
     while True:
         print(f'На счете {amount} рублей')
         print('1. пополнение счета')
@@ -39,6 +70,11 @@ def bill():
         elif choice == '3':
             show_hist(hist)
         elif choice == '4':
+            file_write(FILE_WALLET, amount)
+            file_write(FILE_HIST, hist)
             break
         else:
             print('Неверный пункт меню')
+
+
+# bill()

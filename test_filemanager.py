@@ -1,11 +1,12 @@
 import shutil
 import random
 import os
-from os_func import create_folder, delete_folder_file, view_work_dir
+from os_func import create_folder, delete_folder_file, view_work_dir, file_dir_write
 from shutil_func import copy_folder_file
 from sys_func import os_info, change_path
 from victory import victory_game
-from bank_account import add_money
+from bank_account import add_money, file_read, file_write
+import json
 
 
 # Тест функций из викторины
@@ -118,6 +119,13 @@ def test_shop():
     assert wall >= 0
     assert len(pokup) >= 0
 
+# проверка правильности записи и чтения
+def test_read_write_file():
+    files = 'files/test_rd_wr_f.txt'
+    file_write(files, 100)
+    r = file_read(files)
+    assert r == 100
+
 
 # Тест функции копирования файлов
 def test_copy_folder_file():
@@ -133,3 +141,18 @@ def test_copy_folder_file():
     else:
         copy_folder_file()
         assert file in os.listdir()
+
+# Проверка наличия названия файла listdir.txt
+def test_file_dir_write():
+    FILE_NAME = 'files/listdir.txt'
+    fl = 'bank_account.py'
+    with open(FILE_NAME, 'r') as f:
+        os_files = f.readlines()
+        for i in os_files:
+            k = i.find(fl)
+            if k != -1:
+                res = True
+                break
+            else:
+                res = False
+    assert res == True
