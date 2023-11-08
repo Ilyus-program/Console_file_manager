@@ -6,6 +6,7 @@ from shutil_func import copy_folder_file
 from sys_func import os_info, change_path
 from victory import victory_game
 from bank_account import add_money, file_read, file_write
+# from decorators import add_separators
 import json
 
 
@@ -119,6 +120,7 @@ def test_shop():
     assert wall >= 0
     assert len(pokup) >= 0
 
+
 # проверка правильности записи и чтения
 def test_read_write_file():
     files = 'files/test_rd_wr_f.txt'
@@ -142,6 +144,7 @@ def test_copy_folder_file():
         copy_folder_file()
         assert file in os.listdir()
 
+
 # Проверка наличия названия файла listdir.txt
 def test_file_dir_write():
     FILE_NAME = 'files/listdir.txt'
@@ -156,3 +159,16 @@ def test_file_dir_write():
             else:
                 res = False
     assert res == True
+
+
+def test_add_separators():
+    def add_separators(func):
+        def inner(arg, kwarg):
+            print('<' + ('-' * 50) + '>')
+            result = func(arg, kwarg)
+            print('<' + ('-' * 50) + '>')
+            return result
+        res = inner(0, 50)
+        return res
+
+    assert add_separators(add_money) == add_money(0, 50)
